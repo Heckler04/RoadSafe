@@ -125,8 +125,6 @@ public class DatabaseManager implements HazardRepository {
             closeQuietly(null, statement);
         }
     }
-
-    // returns User or null if wrong login
     public User authenticate(String username, String password)
             throws SQLException {
         String sql = "SELECT id, username, full_name, password, role "
@@ -175,7 +173,6 @@ public class DatabaseManager implements HazardRepository {
         }
     }
 
-    // new citizen registration
     public void registerCitizen(String username, String fullName,
                                 String password) throws RoadSafeException {
         try {
@@ -189,7 +186,6 @@ public class DatabaseManager implements HazardRepository {
         }
     }
 
-    // admin can add a new maintenance worker
     public void registerWorker(String username, String fullName,
                                String password) throws RoadSafeException {
         try {
@@ -223,7 +219,6 @@ public class DatabaseManager implements HazardRepository {
         return workers;
     }
 
-    // save a notification for a user
     public void addNotification(String username, String message) throws SQLException {
         String sql = "INSERT INTO notifications (username, message, is_read) VALUES (?, ?, 0)";
         PreparedStatement statement = null;
@@ -237,7 +232,6 @@ public class DatabaseManager implements HazardRepository {
         }
     }
 
-    // get unread notifications for a user
     public Vector getUnreadNotifications(String username) throws SQLException {
         Vector list = new Vector();
         String sql = "SELECT message FROM notifications WHERE username = ? AND is_read = 0";
@@ -255,8 +249,6 @@ public class DatabaseManager implements HazardRepository {
         }
         return list;
     }
-
-    // mark all notifications as read for a user
     public void markNotificationsRead(String username) throws SQLException {
         String sql = "UPDATE notifications SET is_read = 1 WHERE username = ?";
         PreparedStatement statement = null;
@@ -269,7 +261,6 @@ public class DatabaseManager implements HazardRepository {
         }
     }
 
-    // get the reporter username of a hazard
     public String getReporterOfHazard(int hazardId) throws SQLException {
         String sql = "SELECT reported_by FROM hazards WHERE id = ?";
         PreparedStatement statement = null;
@@ -286,8 +277,6 @@ public class DatabaseManager implements HazardRepository {
         }
         return null;
     }
-
-    // ---- HazardRepository methods (CRUD) ----
 
     public void addHazard(Hazard hazard) throws SQLException {
         String sql = "INSERT INTO hazards "
